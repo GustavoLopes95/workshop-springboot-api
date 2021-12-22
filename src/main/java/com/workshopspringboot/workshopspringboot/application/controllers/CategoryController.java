@@ -1,6 +1,7 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
-import com.workshopspringboot.workshopspringboot.application.services.OrderAppService;
+import com.workshopspringboot.workshopspringboot.application.services.CategoryAppService;
+import com.workshopspringboot.workshopspringboot.domain.entities.Category;
 import com.workshopspringboot.workshopspringboot.domain.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
-public class OrderController {
+@RequestMapping("/category")
+public class CategoryController {
 
     @Autowired
-    private OrderAppService service;
+    private CategoryAppService service;
     
     @GetMapping
-    public ResponseEntity<List<Order>> findAll() {
-        var orders = service.findAll();
-        return ResponseEntity.ok().body(orders);
+    public ResponseEntity<List<Category>> findAll() {
+        var entities = service.findAll();
+        return ResponseEntity.ok().body(entities);
     }
 
     @GetMapping( value = "/{id}")
-    public ResponseEntity<Order> find(@PathVariable Long id) {
-        var order = service.findById(id);
-        return ResponseEntity.ok().body(order);
+    public ResponseEntity<Category> find(@PathVariable Long id) {
+        var entity = service.findById(id);
+        return ResponseEntity.ok().body(entity);
     }
 }
