@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +21,8 @@ public class Category extends DomainEntity {
 
     private String name;
 
-    @OneToMany
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
     @Getter(AccessLevel.NONE)
     private Set<Product> products = new HashSet<>();
 

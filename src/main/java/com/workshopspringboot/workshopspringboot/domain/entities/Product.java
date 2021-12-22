@@ -5,10 +5,11 @@ import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,11 +24,21 @@ public class Product extends DomainEntity {
     private Double price;
     private String imgUrl;
 
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn( name = "category_id")
+    @Column( name = "created_at")
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @Column( name = "updated_at")
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    @ManyToMany
+    @JoinTable( name = "product_category",
+            joinColumns = @JoinColumn( name = "product_id"),
+            inverseJoinColumns = @JoinColumn( name = "category_id"))
     @Getter(AccessLevel.NONE)
     private Set<Category> categories = new HashSet<>();
+
 
     public Product(Long id, String name, String description, Double price, String imgUrl) {
         super(id);
@@ -39,5 +50,9 @@ public class Product extends DomainEntity {
 
     public Set<Category> getCategories() {
         return Collections.unmodifiableSet(categories);
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
     }
 }

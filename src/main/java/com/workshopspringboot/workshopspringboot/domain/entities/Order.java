@@ -2,6 +2,7 @@ package com.workshopspringboot.workshopspringboot.domain.entities;
 
 import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity;
 import com.workshopspringboot.workshopspringboot.domain.enums.OrderStatusEnum;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.*;
 
 @Entity
 @Table( name = "orders")
@@ -22,9 +24,15 @@ public class Order extends DomainEntity {
 
     private Integer status;
 
+    @OneToMany(mappedBy = "order")
+    @Getter(AccessLevel.NONE)
+    private Set<OrderItem> items = new HashSet<>();
+
+    @Column( name = "created_at")
     @CreationTimestamp
     private Instant createdAt;
 
+    @Column( name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -42,6 +50,22 @@ public class Order extends DomainEntity {
 
     public OrderStatusEnum getStatus() {
         return OrderStatusEnum.valueOf(status);
+    }
+
+    public Set<OrderItem> getItems() {
+        return Collections.unmodifiableSet(items);
+    }
+
+    public void addItem(final OrderItem orderItem) {
+        if(!orderItem.isValid()) return;
+
+        orderItem.attachOrder(this);
+
+        this.items.add(orderItem);
+    }
+
+    public boolean orderItemExists(OrderItem orderItem) {
+        return this.items.contains(orderItem);
     }
 
     public void pay() {

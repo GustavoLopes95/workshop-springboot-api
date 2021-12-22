@@ -29,9 +29,11 @@ public class User extends DomainEntity {
     @OneToMany( mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
+    @Column( name = "created_at")
     @CreationTimestamp
     private Instant createdAt;
 
+    @Column( name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
 
