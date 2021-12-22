@@ -1,6 +1,7 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
 import com.workshopspringboot.workshopspringboot.application.services.UserAppService;
+import com.workshopspringboot.workshopspringboot.domain.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

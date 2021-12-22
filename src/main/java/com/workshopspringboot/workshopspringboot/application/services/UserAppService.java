@@ -1,6 +1,8 @@
 package com.workshopspringboot.workshopspringboot.application.services;
 
 import com.workshopspringboot.workshopspringboot.core.exceptions.ResourceNotFoundException;
+import com.workshopspringboot.workshopspringboot.data.UserRepository;
+import com.workshopspringboot.workshopspringboot.domain.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
