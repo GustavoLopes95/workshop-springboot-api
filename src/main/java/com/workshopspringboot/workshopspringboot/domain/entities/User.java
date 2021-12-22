@@ -1,27 +1,40 @@
 package com.workshopspringboot.workshopspringboot.domain.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends DomainEntity {
 
-    @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     private String email;
     private String phone;
     private String password;
+
+    @JsonIgnore
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @OneToMany( mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
     public User(Long id, String name, String email, String phone, String password) {
         this.id = id;
@@ -31,16 +44,7 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public List<Order> getOrders() {
+        return Collections.unmodifiableList(this.orders);
     }
 }
