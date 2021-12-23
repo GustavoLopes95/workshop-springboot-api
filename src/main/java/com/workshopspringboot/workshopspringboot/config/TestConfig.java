@@ -35,7 +35,7 @@ public class TestConfig implements CommandLineRunner {
         var c2 = new Category(null, "Books");
         var c3 = new Category(null, "Computers");
 
-        var p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        var p1 = new Product(null, "Design Patterns", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
         var p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
         var p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
         var p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
@@ -72,5 +72,10 @@ public class TestConfig implements CommandLineRunner {
         var oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+        var pa1 = new Payment(null, o1);
+        o1.pay(pa1);
+
+        orderRepository.save(o1);
     }
 }
