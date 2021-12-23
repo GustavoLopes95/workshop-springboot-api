@@ -14,7 +14,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class User extends DomainEntity {
 
@@ -47,5 +46,13 @@ public class User extends DomainEntity {
 
     public List<Order> getOrders() {
         return Collections.unmodifiableList(this.orders);
+    }
+
+    public void replaceName(String newName) {
+        name = newName;
+    }
+
+    public void replacePhone(String newPhone) {
+        phone = newPhone;
     }
 }

@@ -24,6 +24,9 @@ public class Order extends DomainEntity {
 
     private Integer status;
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     @OneToMany(mappedBy = "order")
     @Getter(AccessLevel.NONE)
     private Set<OrderItem> items = new HashSet<>();
@@ -68,7 +71,8 @@ public class Order extends DomainEntity {
         return this.items.contains(orderItem);
     }
 
-    public void pay() {
+    public void pay(Payment payment) {
+        this.payment = payment;
         status = OrderStatusEnum.PAID.getCode();
     }
 
@@ -82,5 +86,9 @@ public class Order extends DomainEntity {
 
     public void cancel() {
         status = OrderStatusEnum.CANCELED.getCode();
+    }
+
+    public Double getTotal() {
+        return items.stream().reduce(0.0 , (total, item) -> total + item.getSubTotal(), Double::sum);
     }
 }

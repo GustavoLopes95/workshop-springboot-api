@@ -1,5 +1,6 @@
 package com.workshopspringboot.workshopspringboot.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class Payment extends DomainEntity {
 
     @OneToOne
     @JoinColumn( name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @Column( name = "created_at")

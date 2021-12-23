@@ -2,10 +2,8 @@ package com.workshopspringboot.workshopspringboot.core.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Getter
 @Setter
