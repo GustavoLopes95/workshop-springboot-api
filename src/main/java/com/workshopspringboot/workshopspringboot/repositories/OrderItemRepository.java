@@ -1,4 +1,4 @@
-package com.workshopspringboot.workshopspringboot.data;
+package com.workshopspringboot.workshopspringboot.repositories;
 
 
 import com.workshopspringboot.workshopspringboot.domain.entities.OrderItem;

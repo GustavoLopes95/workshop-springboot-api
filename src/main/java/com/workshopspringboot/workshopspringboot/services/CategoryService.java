@@ -1,17 +1,15 @@
-package com.workshopspringboot.workshopspringboot.application.services;
+package com.workshopspringboot.workshopspringboot.services;
 
 import com.workshopspringboot.workshopspringboot.core.exceptions.ResourceNotFoundException;
-import com.workshopspringboot.workshopspringboot.data.CategoryRepository;
-import com.workshopspringboot.workshopspringboot.data.OrderRepository;
+import com.workshopspringboot.workshopspringboot.repositories.CategoryRepository;
 import com.workshopspringboot.workshopspringboot.domain.entities.Category;
-import com.workshopspringboot.workshopspringboot.domain.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CategoryAppService {
+public class CategoryService {
 
     @Autowired
     private CategoryRepository repository;

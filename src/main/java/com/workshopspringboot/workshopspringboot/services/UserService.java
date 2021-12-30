@@ -1,33 +1,42 @@
-package com.workshopspringboot.workshopspringboot.application.services;
+package com.workshopspringboot.workshopspringboot.services;
 
 import com.workshopspringboot.workshopspringboot.core.exceptions.ResourceNotFoundException;
-import com.workshopspringboot.workshopspringboot.data.UserRepository;
+import com.workshopspringboot.workshopspringboot.domain.entities.Order;
+import com.workshopspringboot.workshopspringboot.repositories.OrderRepository;
+import com.workshopspringboot.workshopspringboot.repositories.UserRepository;
 import com.workshopspringboot.workshopspringboot.domain.entities.User;
 import com.workshopspringboot.workshopspringboot.domain.exceptions.DomainException;
-import com.workshopspringboot.workshopspringboot.domain.services.UserDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
-public class UserAppService {
+public class UserService {
 
     @Autowired
     private UserRepository repository;
 
     @Autowired
-    private UserDomainService userDomainService;
+    private OrderRepository orderRepository;
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public Page<User> findAll(Specification<User> spec, Pageable pageable) {
+        return repository.findAll(spec, pageable);
     }
 
     public User findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
+    public Page<Order> findAllOrders(Long id, Specification<Order> inputSpec, Pageable pageable) {
+        var spec = Specification.where(inputSpec).and((root, query, builder) -> builder.equal(root.get("client"), id));
+        return orderRepository.findAll(spec, pageable);
     }
 
     public User insert(User user) {
@@ -44,11 +53,18 @@ public class UserAppService {
         }
     }
 
-    public User update(Long id, User user) {
+    public User update(Long id, User userInput) {
         try {
-            return userDomainService.updateInfo(id, user);
+            var user = repository.findById(id).get();
+            updateData(user, userInput);
+            return repository.save(user);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(id);
         }
+    }
+
+    public void updateData(User user, User userInput) {
+        user.replaceName(userInput.getName());
+        user.replacePhone(userInput.getPhone());
     }
 }

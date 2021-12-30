@@ -1,6 +1,6 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
-import com.workshopspringboot.workshopspringboot.application.services.OrderAppService;
+import com.workshopspringboot.workshopspringboot.services.OrderService;
 import com.workshopspringboot.workshopspringboot.domain.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderAppService service;
+    private OrderService service;
     
     @GetMapping
     public ResponseEntity<List<Order>> findAll() {

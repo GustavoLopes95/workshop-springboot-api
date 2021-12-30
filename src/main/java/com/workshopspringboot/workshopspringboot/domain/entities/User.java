@@ -1,6 +1,7 @@
 package com.workshopspringboot.workshopspringboot.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,14 +19,17 @@ import java.util.List;
 public class User extends DomainEntity {
 
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String phone;
     private String password;
 
     @JsonIgnore
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    @OneToMany( mappedBy = "client")
+    @OneToMany( mappedBy = "client", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
     @Column( name = "created_at")

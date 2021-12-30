@@ -1,8 +1,7 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
-import com.workshopspringboot.workshopspringboot.application.services.CategoryAppService;
+import com.workshopspringboot.workshopspringboot.services.CategoryService;
 import com.workshopspringboot.workshopspringboot.domain.entities.Category;
-import com.workshopspringboot.workshopspringboot.domain.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryAppService service;
+    private CategoryService service;
     
     @GetMapping
     public ResponseEntity<List<Category>> findAll() {

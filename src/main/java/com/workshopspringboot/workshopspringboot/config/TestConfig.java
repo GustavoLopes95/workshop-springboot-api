@@ -1,6 +1,6 @@
 package com.workshopspringboot.workshopspringboot.config;
 
-import com.workshopspringboot.workshopspringboot.data.*;
+import com.workshopspringboot.workshopspringboot.repositories.*;
 import com.workshopspringboot.workshopspringboot.domain.entities.*;
 import com.workshopspringboot.workshopspringboot.domain.enums.OrderStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class TestConfig implements CommandLineRunner {
 
         var o1 = new Order(null, u1, OrderStatusEnum.PAID);
         var o2 = new Order(null, u1, OrderStatusEnum.WAITING_PAYMENT);
-        var o3 = new Order(null, u2, OrderStatusEnum.CANCELED);
+        var o3 = new Order(null, u2, OrderStatusEnum.PAID);
         var o4 = new Order(null, u2, OrderStatusEnum.DELIVERED);
 
         orderRepository.saveAll(Arrays.asList(o1, o2, o3, o4));

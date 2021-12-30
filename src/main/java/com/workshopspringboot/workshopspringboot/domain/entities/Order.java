@@ -1,5 +1,6 @@
 package com.workshopspringboot.workshopspringboot.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workshopspringboot.workshopspringboot.core.domainObjects.DomainEntity;
 import com.workshopspringboot.workshopspringboot.domain.enums.OrderStatusEnum;
 import lombok.AccessLevel;

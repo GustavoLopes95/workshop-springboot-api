@@ -1,12 +1,18 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
-import com.workshopspringboot.workshopspringboot.application.services.UserAppService;
+import com.workshopspringboot.workshopspringboot.application.resourcers.UserFindAllResource;
+import com.workshopspringboot.workshopspringboot.application.resourcers.UserGetOrdersResource;
+import com.workshopspringboot.workshopspringboot.application.responses.PagingResponse;
+import com.workshopspringboot.workshopspringboot.application.responses.ResponsePageable;
+import com.workshopspringboot.workshopspringboot.domain.entities.Order;
+import com.workshopspringboot.workshopspringboot.services.UserService;
 import com.workshopspringboot.workshopspringboot.domain.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,18 +21,24 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserAppService service;
+    private UserService service;
     
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        var users = service.findAll();
-        return ResponseEntity.ok().body(users);
+    public ResponseEntity<PagingResponse<User>> findAll(UserFindAllResource spec, Pageable pageable) {
+        var pages = service.findAll(spec, pageable);
+        return ResponseEntity.ok().body(new PagingResponse(new ResponsePageable(pages.getTotalElements(), pages.getNumber(), pages.getSize(), pageable.getOffset(), pages.getTotalPages()), pages.getContent()));
     }
 
     @GetMapping( value = "/{id}")
     public ResponseEntity<User> find(@PathVariable Long id) {
         var user = service.findById(id);
         return ResponseEntity.ok().body(user);
+    }
+
+    @GetMapping( value = "/{id}/order")
+    public ResponseEntity<PagingResponse<Order>> getOrders(@PathVariable Long id, UserGetOrdersResource spec, Pageable pageable) {
+        var pages = service.findAllOrders(id, spec, pageable);
+        return ResponseEntity.ok().body(new PagingResponse(new ResponsePageable(pages.getTotalElements(), pages.getNumber(), pages.getSize(), pageable.getOffset(), pages.getTotalPages()), pages.getContent()));
     }
 
     @PostMapping

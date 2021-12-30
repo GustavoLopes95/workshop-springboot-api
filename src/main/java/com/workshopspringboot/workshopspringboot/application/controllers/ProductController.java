@@ -1,8 +1,6 @@
 package com.workshopspringboot.workshopspringboot.application.controllers;
 
-import com.workshopspringboot.workshopspringboot.application.services.CategoryAppService;
-import com.workshopspringboot.workshopspringboot.application.services.ProductAppService;
-import com.workshopspringboot.workshopspringboot.domain.entities.Category;
+import com.workshopspringboot.workshopspringboot.services.ProductService;
 import com.workshopspringboot.workshopspringboot.domain.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductAppService service;
+    private ProductService service;
     
     @GetMapping
     public ResponseEntity<List<Product>> findAll() {
